@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataUploadService {
 
-  private apiUrl = 'http://localhost:8080/api/data';
+  private apiUrl = `${environment.apiUrl}/api/data`;
 
   constructor(
     private http: HttpClient,
@@ -27,6 +28,7 @@ export class DataUploadService {
     formData.append('file', file);
     formData.append('category', category);
     formData.append('eodDate', eodDate);
+
     return this.http.post(
       `${this.apiUrl}/upload`,
       formData,
@@ -47,6 +49,7 @@ export class DataUploadService {
     files.forEach(f => formData.append('files', f));
     formData.append('category', category);
     formData.append('eodDate', eodDate);
+
     return this.http.post(
       `${this.apiUrl}/upload-multiple`,
       formData,
@@ -76,11 +79,14 @@ export class DataUploadService {
     month: number,
     day?: number,
     fileType?: string): Observable<any> {
+
     let params = new HttpParams()
       .set('year', year.toString())
       .set('month', month.toString());
+
     if (day) params = params.set('day', day.toString());
     if (fileType) params = params.set('fileType', fileType);
+
     return this.http.get(
       `${this.apiUrl}/files/filter`,
       {
