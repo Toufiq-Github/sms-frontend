@@ -1,0 +1,75 @@
+<div class="register-container">
+
+  <!-- Left Side -->
+  <div class="register-left">
+    <div class="brand">
+      <h1>DMS</h1>
+      <p>Data Management & Reporting System</p>
+    </div>
+    <div class="brand-description">
+      <h2>Join Us Today!</h2>
+      <p>Create your account to get started with the Student Management System.</p>
+    </div>
+  </div>
+
+  <!-- Right Side - Register Form -->
+  <div class="register-right">
+    <div class="register-card">
+
+      <h2>Create Account</h2>
+      <p class="subtitle">Fill in the details to register</p>
+
+      <!-- Success Message -->
+      <div class="success-box" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-box" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Register Form -->
+      <div class="form-group">
+        <label>Full Name</label>
+        <input
+          type="text"
+          [(ngModel)]="registerData.fullName"
+          placeholder="Enter your full name"
+          class="form-input"/>
+      </div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <input
+          type="email"
+          [(ngModel)]="registerData.email"
+          placeholder="Enter your email"
+          class="form-input"/>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          [(ngModel)]="registerData.password"
+          placeholder="Minimum 6 characters"
+          class="form-input"/>
+      </div>
+
+      <button
+        class="register-btn"
+        (click)="onRegister()"
+        [disabled]="isLoading">
+        {{ isLoading ? 'Creating Account...' : 'Create Account' }}
+      </button>
+
+      <p class="login-link">
+        Already have an account?
+        <span (click)="goToLogin()">Sign in here</span>
+      </p>
+
+    </div>
+  </div>
+
+</div>

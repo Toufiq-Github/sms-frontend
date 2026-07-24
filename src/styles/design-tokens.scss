@@ -1,0 +1,42 @@
+// ===== DocSense-inspired Design Tokens =====
+
+// Sidebar
+$sidebar-bg: #203A5E;
+$sidebar-footer-bg: #1A3150;
+$sidebar-width: 270px;
+$sidebar-text: #D5DDE7;
+$sidebar-hover-bg: #4C6184;
+$sidebar-active-bg: #51698E;
+$sidebar-text-active: #FFFFFF;
+
+// Main content
+$content-bg: #FFFFFF;
+$content-padding: 36px;
+
+// Cards
+$card-bg: #FFFFFF;
+$card-border: #E7EAF0;
+$card-radius: 16px;
+$card-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+
+// Typography
+$font-family: 'Inter', 'Segoe UI', sans-serif;
+$heading-color: #1F2937;
+$secondary-text: #6B7280;
+
+// Buttons
+$btn-primary-bg: #203A5E;
+$btn-primary-hover: #2D4A73;
+$btn-radius: 10px;
+
+// Tables
+$table-border: #E7EAF0;
+$table-row-hover: #F8FAFC;
+
+// Forms
+$input-border: #E5E7EB;
+$input-radius: 10px;
+$input-focus-border: #203A5E;
+
+// Transitions
+$transition-speed: 250ms ease;

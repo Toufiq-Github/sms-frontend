@@ -1,0 +1,140 @@
+<div class="view-container">
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <lucide-angular [img]="Database" [size]="18" class="top-icon"></lucide-angular>
+      <div class="top-title">
+        <h1 *ngIf="data">{{ data.sourceFileName }}</h1>
+        <h1 *ngIf="!data && !isLoading">Data View</h1>
+        <div class="top-meta" *ngIf="data">
+          <span class="meta-tag">{{ data.dataCategory }}</span>
+          <span class="meta-tag type-tag">{{ data.sourceFileType }}</span>
+          <span class="meta-info">{{ data.totalRows }} rows</span>
+          <span class="meta-sep">·</span>
+          <span class="meta-info">{{ data.totalColumns }} columns</span>
+          <span class="meta-sep">·</span>
+          <span class="meta-info">Uploaded by {{ data.uploadedBy }}</span>
+          <span class="meta-sep">·</span>
+          <span class="meta-info">{{ data.uploadedAt }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="top-bar-right">
+      <!-- Search -->
+      <div class="search-bar">
+        <lucide-angular [img]="Search" [size]="14"></lucide-angular>
+        <input
+          type="text"
+          [(ngModel)]="searchText"
+          (input)="onSearch()"
+          placeholder="Search..."
+          class="search-input"/>
+        <button class="clear-btn" *ngIf="searchText" (click)="clearSearch()">
+          <lucide-angular [img]="X" [size]="12"></lucide-angular>
+        </button>
+      </div>
+
+      <button class="close-btn" (click)="closeWindow()">
+        <lucide-angular [img]="X" [size]="14"></lucide-angular>
+        Close
+      </button>
+    </div>
+  </div>
+
+  <!-- Pagination Info -->
+  <div class="pagination-bar" *ngIf="data && !isLoading">
+    <span class="showing-text">
+      Showing {{ (currentPage - 1) * pageSize + 1 }}
+      to {{ Math.min(currentPage * pageSize, filteredRows.length) }}
+      of {{ filteredRows.length }}
+      <span *ngIf="searchText"> (filtered from {{ data.totalRows }} total)</span>
+    </span>
+
+    <div class="pagination-controls">
+      <button class="page-btn" [disabled]="currentPage === 1"
+        (click)="goToPage(1)">First</button>
+      <button class="page-btn" [disabled]="currentPage === 1"
+        (click)="goToPage(currentPage - 1)">
+        <lucide-angular [img]="ChevronLeft" [size]="13"></lucide-angular>
+        Previous
+      </button>
+
+      <ng-container *ngFor="let p of pageNumbers">
+        <span *ngIf="p === -1" class="page-ellipsis">...</span>
+        <button *ngIf="p !== -1"
+          class="page-btn page-num"
+          [class.active]="p === currentPage"
+          (click)="goToPage(p)">
+          {{ p }}
+        </button>
+      </ng-container>
+
+      <button class="page-btn" [disabled]="currentPage === totalPages"
+        (click)="goToPage(currentPage + 1)">
+        Next
+        <lucide-angular [img]="ChevronRight" [size]="13"></lucide-angular>
+      </button>
+      <button class="page-btn" [disabled]="currentPage === totalPages"
+        (click)="goToPage(totalPages)">Last</button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-state" *ngIf="isLoading">
+    <p>Loading data...</p>
+  </div>
+
+  <!-- Error -->
+  <div class="error-state" *ngIf="errorMessage">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper" *ngIf="data && !isLoading">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="row-num-th">#</th>
+          <th *ngFor="let col of data.columns">{{ col }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of paginatedRows; let i = index">
+          <td class="row-num-td">
+            {{ (currentPage - 1) * pageSize + i + 1 }}
+          </td>
+          <td *ngFor="let col of data.columns">
+            <span [class.num-cell]="isNumber(row[col])"
+                  [class.empty-cell]="row[col] === '' || row[col] === null">
+              {{ row[col] !== null && row[col] !== undefined && row[col] !== ''
+                ? row[col] : '—' }}
+            </span>
+          </td>
+        </tr>
+        <tr *ngIf="filteredRows.length === 0">
+          <td [attr.colspan]="(data.columns?.length || 0) + 1" class="no-results">
+            No results for "{{ searchText }}"
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bottom pagination (for long tables) -->
+  <div class="bottom-pagination" *ngIf="data && totalPages > 1 && !isLoading">
+    <button class="page-btn" [disabled]="currentPage === 1"
+      (click)="goToPage(currentPage - 1)">
+      <lucide-angular [img]="ChevronLeft" [size]="13"></lucide-angular>
+      Previous
+    </button>
+    <span class="page-indicator">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button class="page-btn" [disabled]="currentPage === totalPages"
+      (click)="goToPage(currentPage + 1)">
+      Next
+      <lucide-angular [img]="ChevronRight" [size]="13"></lucide-angular>
+    </button>
+  </div>
+
+</div>

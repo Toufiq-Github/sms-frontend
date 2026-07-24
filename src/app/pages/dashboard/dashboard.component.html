@@ -1,0 +1,491 @@
+<div class="dashboard-container">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">
+        <lucide-angular [img]="LayoutDashboard" [size]="20"></lucide-angular>
+      </div>
+      <div class="brand-text">
+        <h1>DMS</h1>
+        <p>Management System</p>
+      </div>
+    </div>
+    <div class="brand-divider"></div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item active"
+        (click)="navigateTo('dashboard')">
+        <lucide-angular [img]="LayoutDashboard"
+          class="nav-icon" [size]="18"></lucide-angular>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-item"
+        *ngIf="isAdmin"
+        (click)="navigateTo('admin')">
+        <lucide-angular [img]="Users"
+          class="nav-icon" [size]="18"></lucide-angular>
+        <span>User Management</span>
+      </a>
+      <a class="nav-item"
+        (click)="navigateTo('files')">
+        <lucide-angular [img]="FolderOpen"
+          class="nav-icon" [size]="18"></lucide-angular>
+        <span>File Upload</span>
+      </a>
+      <a class="nav-item"
+        (click)="navigateTo('data-upload')">
+        <lucide-angular [img]="Database"
+          class="nav-icon" [size]="18"></lucide-angular>
+        <span>Data Upload</span>
+      </a>
+      <a class="nav-item"
+        (click)="navigateTo('reports')">
+        <lucide-angular [img]="FileText"
+          class="nav-icon" [size]="18"></lucide-angular>
+        <span>Reports</span>
+      </a>
+      <a class="nav-item"
+        (click)="navigateTo('profile')">
+        <lucide-angular [img]="User"
+          class="nav-icon" [size]="18"></lucide-angular>
+        <span>My Profile</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">
+          {{ currentUser?.fullName?.charAt(0)
+            | uppercase }}
+        </div>
+        <div class="user-details">
+          <p class="user-name">
+            {{ currentUser?.fullName }}
+          </p>
+          <p class="user-role"
+            [class.admin-role]="isAdmin">
+            {{ currentUser?.role }}
+          </p>
+        </div>
+      </div>
+      <button class="logout-btn" (click)="logout()">
+        <lucide-angular [img]="LogOut"
+          [size]="14"></lucide-angular>
+        Logout
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- Header -->
+    <div class="header">
+      <div>
+        <h2>{{ isAdmin ?
+          'Admin Dashboard' : 'Dashboard' }}</h2>
+        <p>Welcome back,
+          {{ currentUser?.fullName }}!</p>
+      </div>
+      <div class="role-badge"
+        [class.admin-badge]="isAdmin"
+        [class.user-badge]="!isAdmin">
+        <lucide-angular
+          [img]="isAdmin ? ShieldCheck : UserCheck"
+          [size]="14"></lucide-angular>
+        {{ isAdmin ? 'Admin' : 'User' }}
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading" *ngIf="isLoading">
+      <p>Loading dashboard data...</p>
+    </div>
+
+    <!-- ADMIN Stats Cards -->
+    <div class="stats-grid"
+      *ngIf="!isLoading && isAdmin">
+      <div class="stat-card">
+        <div class="stat-icon brand">
+          <lucide-angular [img]="Users"
+            [size]="22"></lucide-angular>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.totalUsers }}</h3>
+          <p>Total Users</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon success">
+          <lucide-angular [img]="UserCheck"
+            [size]="22"></lucide-angular>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.activeUsers }}</h3>
+          <p>Active Users</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon brand">
+          <lucide-angular [img]="FolderOpen"
+            [size]="22"></lucide-angular>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.totalFiles }}</h3>
+          <p>Total Files</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon brand">
+          <lucide-angular [img]="FileText"
+            [size]="22"></lucide-angular>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.totalReports }}</h3>
+          <p>Total Reports</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- USER Stats Cards -->
+    <div class="stats-grid"
+      *ngIf="!isLoading && !isAdmin">
+      <div class="stat-card">
+        <div class="stat-icon brand">
+          <lucide-angular [img]="FolderOpen"
+            [size]="22"></lucide-angular>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.totalFiles }}</h3>
+          <p>Total Files</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon brand">
+          <lucide-angular [img]="FileText"
+            [size]="22"></lucide-angular>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.totalReports }}</h3>
+          <p>Total Reports</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon success">
+          <lucide-angular [img]="FileType"
+            [size]="22"></lucide-angular>
+        </div>
+        <div class="stat-info">
+          <h3>{{ pdfFileCount }}</h3>
+          <p>PDF Files</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon brand">
+          <lucide-angular [img]="ShieldCheck"
+            [size]="22"></lucide-angular>
+        </div>
+        <div class="stat-info">
+          <h3>{{ filesThisMonth }}</h3>
+          <p>This Month</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div class="charts-row" *ngIf="chartLoaded">
+
+      <!-- File Type Chart -->
+      <div class="chart-card">
+        <h3>
+          <lucide-angular [img]="FolderOpen"
+            [size]="16"></lucide-angular>
+          Files by Type
+        </h3>
+        <p class="chart-subtitle">
+          Total: {{ files.length }} files
+        </p>
+
+        <div class="file-type-chart">
+          <div class="type-item">
+            <div class="type-header">
+              <span class="type-label">
+                <lucide-angular [img]="FileType"
+                  [size]="14"></lucide-angular>
+                PDF
+              </span>
+              <span class="type-count">
+                {{ pdfCount }}
+                ({{ getPercentage(pdfCount) }}%)
+              </span>
+            </div>
+            <div class="type-bar-track">
+              <div class="type-bar-fill pdf"
+                [style.width.%]="
+                  getPercentage(pdfCount)">
+              </div>
+            </div>
+          </div>
+
+          <div class="type-item">
+            <div class="type-header">
+              <span class="type-label">
+                <lucide-angular [img]="FileSpreadsheet"
+                  [size]="14"></lucide-angular>
+                Excel
+              </span>
+              <span class="type-count">
+                {{ excelCount }}
+                ({{ getPercentage(excelCount) }}%)
+              </span>
+            </div>
+            <div class="type-bar-track">
+              <div class="type-bar-fill excel"
+                [style.width.%]="
+                  getPercentage(excelCount)">
+              </div>
+            </div>
+          </div>
+
+          <div class="type-item">
+            <div class="type-header">
+              <span class="type-label">
+                <lucide-angular [img]="FileCode"
+                  [size]="14"></lucide-angular>
+                TXT
+              </span>
+              <span class="type-count">
+                {{ txtCount }}
+                ({{ getPercentage(txtCount) }}%)
+              </span>
+            </div>
+            <div class="type-bar-track">
+              <div class="type-bar-fill txt"
+                [style.width.%]="
+                  getPercentage(txtCount)">
+              </div>
+            </div>
+          </div>
+
+          <div class="no-files-msg"
+            *ngIf="files.length === 0">
+            <lucide-angular [img]="FolderOpen"
+              [size]="28"></lucide-angular>
+            <p>No files uploaded yet</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users Chart - Admin Only -->
+      <div class="chart-card" *ngIf="isAdmin">
+        <h3>
+          <lucide-angular [img]="Users"
+            [size]="16"></lucide-angular>
+          Users Overview
+        </h3>
+        <p class="chart-subtitle">
+          {{ stats.totalUsers }} total users
+        </p>
+
+        <div class="ratio-summary">
+          <div class="ratio-item">
+            <span class="ratio-dot active-dot"></span>
+            <span class="ratio-label">Active</span>
+            <span class="ratio-count">{{ stats.activeUsers }}</span>
+          </div>
+          <div class="ratio-item">
+            <span class="ratio-dot inactive-dot"></span>
+            <span class="ratio-label">Inactive</span>
+            <span class="ratio-count">{{ getInactiveUserCount() }}</span>
+          </div>
+        </div>
+
+        <div class="stacked-bar-track">
+          <div class="stacked-bar-fill active-fill"
+            [style.width.%]="getActiveUserWidth()">
+          </div>
+          <div class="stacked-bar-fill inactive-fill"
+            [style.width.%]="getInactiveUserWidth()">
+          </div>
+        </div>
+
+        <p class="stacked-bar-percentage">
+          {{ getActiveUserWidth() }}% of users are active
+        </p>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="chart-card">
+        <h3>Quick Actions</h3>
+        <p class="chart-subtitle">
+          Navigate quickly
+        </p>
+
+        <div class="quick-action-list">
+          <div class="quick-action-item"
+            *ngIf="isAdmin"
+            (click)="navigateTo('admin')">
+            <span class="qa-icon">
+              <lucide-angular [img]="Users"
+                [size]="18"></lucide-angular>
+            </span>
+            <div class="qa-info">
+              <p class="qa-title">Manage Users</p>
+              <p class="qa-desc">
+                View and manage all users
+              </p>
+            </div>
+            <lucide-angular [img]="ArrowRight"
+              class="qa-arrow" [size]="16"></lucide-angular>
+          </div>
+
+          <div class="quick-action-item"
+            (click)="navigateTo('files')">
+            <span class="qa-icon">
+              <lucide-angular [img]="FolderOpen"
+                [size]="18"></lucide-angular>
+            </span>
+            <div class="qa-info">
+              <p class="qa-title">Upload Files</p>
+              <p class="qa-desc">
+                Upload PDF, Excel, TXT
+              </p>
+            </div>
+            <lucide-angular [img]="ArrowRight"
+              class="qa-arrow" [size]="16"></lucide-angular>
+          </div>
+
+          <div class="quick-action-item"
+            (click)="navigateTo('reports')">
+            <span class="qa-icon">
+              <lucide-angular [img]="FileText"
+                [size]="18"></lucide-angular>
+            </span>
+            <div class="qa-info">
+              <p class="qa-title">
+                Generate Reports
+              </p>
+              <p class="qa-desc">
+                PDF and Excel reports
+              </p>
+            </div>
+            <lucide-angular [img]="ArrowRight"
+              class="qa-arrow" [size]="16"></lucide-angular>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Logins - Admin Only -->
+    <div class="table-section" *ngIf="isAdmin">
+      <h3>Recent Logins</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Last Login</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of recentLogins">
+            <td>{{ user.fullName }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <span class="badge">
+                {{ user.role }}
+              </span>
+            </td>
+            <td>{{ user.lastLogin |
+              date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>
+              <span class="status-active"
+                *ngIf="user.isActive">Active</span>
+              <span class="status-inactive"
+                *ngIf="!user.isActive">Inactive</span>
+            </td>
+          </tr>
+          <tr *ngIf="recentLogins.length === 0">
+            <td colspan="5" class="no-data">
+              No recent logins found
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- USER: Recent Activity + Summary Row -->
+    <div class="user-bottom-row" *ngIf="!isAdmin && !isLoading">
+
+      <!-- Recent Activity -->
+      <div class="activity-card">
+        <h3>
+          <lucide-angular [img]="FileText" [size]="16"></lucide-angular>
+          Recent Activity
+        </h3>
+        <p class="chart-subtitle">Your latest uploads</p>
+
+        <div class="activity-list" *ngIf="recentActivity.length > 0">
+          <div class="activity-item" *ngFor="let file of recentActivity">
+            <span class="activity-icon">
+              <lucide-angular [img]="getFileIconType(file.fileType)"
+                [size]="16"></lucide-angular>
+            </span>
+            <div class="activity-info">
+              <p class="activity-name">{{ file.fileName }}</p>
+              <p class="activity-time">{{ getTimeAgo(file.uploadedAt) }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-empty" *ngIf="recentActivity.length === 0">
+          <lucide-angular [img]="FolderOpen" [size]="24"></lucide-angular>
+          <p>No activity yet</p>
+        </div>
+
+        <button class="view-all-btn" (click)="navigateTo('files')">
+          View all files
+          <lucide-angular [img]="ArrowRight" [size]="14"></lucide-angular>
+        </button>
+      </div>
+
+      <!-- Getting Started / Monthly Summary -->
+      <div class="summary-card">
+        <h3>
+          <lucide-angular [img]="ShieldCheck" [size]="16"></lucide-angular>
+          Your Summary
+        </h3>
+        <p class="chart-subtitle">This month at a glance</p>
+
+        <div class="checklist">
+          <div class="checklist-item done">
+            <span class="check-circle done"></span>
+            <span>Account created</span>
+          </div>
+          <div class="checklist-item"
+            [class.done]="files.length > 0">
+            <span class="check-circle"
+              [class.done]="files.length > 0"></span>
+            <span>Uploaded your first file</span>
+          </div>
+          <div class="checklist-item"
+            [class.done]="stats.totalReports > 0">
+            <span class="check-circle"
+              [class.done]="stats.totalReports > 0"></span>
+            <span>Generated your first report</span>
+          </div>
+        </div>
+
+        <div class="month-stat">
+          <span class="month-stat-number">{{ filesThisMonth }}</span>
+          <span class="month-stat-label">files uploaded this month</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

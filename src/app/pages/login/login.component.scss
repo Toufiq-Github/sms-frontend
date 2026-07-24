@@ -1,0 +1,193 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+// ===== LEFT SIDE – Slate Blue Gradient (unchanged) =====
+.login-left {
+  width: 45%;
+  background: linear-gradient(145deg, #0f172a, #1e293b, #334155);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  color: white;
+
+  .brand {
+    text-align: center;
+    margin-bottom: 40px;
+
+    h1 {
+      font-size: 64px;
+      font-weight: 800;
+      color: #3b82f6;
+      letter-spacing: 4px;
+      line-height: 1;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #cbd5e1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+  }
+
+  .brand-description {
+    text-align: center;
+
+    h2 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #ffffff;
+    }
+
+    p {
+      font-size: 15px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+  }
+}
+
+// ===== RIGHT SIDE – Light background with floating card =====
+.login-right {
+  width: 55%;
+  background: #f1f5f9;               // light gray – unchanged
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;                     // ensures card doesn't touch edges on small screens
+}
+
+// Floating card – now more compact and elevated
+.login-card {
+  width: 380px;                      // slightly narrower (was 420px)
+  padding: 32px 32px 36px;           // reduced padding → shorter card
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+
+  // Headings (unchanged)
+  h2 {
+    font-size: 28px;                 // slightly smaller to match card size
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    color: #64748b;
+    margin-bottom: 24px;             // reduced spacing
+    font-size: 14px;
+  }
+
+  // Error box (unchanged)
+  .error-box {
+    background: #fef2f2;
+    border: 1px solid #dc2626;
+    color: #991b1b;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+
+  // Form fields (unchanged)
+  .form-group {
+    margin-bottom: 16px;             // reduced gap
+
+    label {
+      display: block;
+      color: #334155;
+      font-size: 13px;
+      margin-bottom: 4px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 12px 14px;              // slightly less padding
+    background: #f8fafc;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    color: #0f172a;
+    font-size: 15px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+  }
+
+  // Login button (unchanged)
+  .login-btn {
+    width: 100%;
+    padding: 12px;                   // slightly reduced
+    background: #3b82f6;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: background 0.2s, transform 0.1s;
+
+    &:hover {
+      background: #2563eb;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &:disabled {
+      background: #94a3b8;
+      color: #ffffff;
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+
+  // Register link (unchanged)
+  .register-link {
+    text-align: center;
+    margin-top: 18px;
+    color: #64748b;
+    font-size: 14px;
+
+    span {
+      color: #3b82f6;
+      cursor: pointer;
+      font-weight: 600;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
