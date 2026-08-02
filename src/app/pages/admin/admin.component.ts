@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LucideAngularModule, LayoutDashboard, Users,
   FolderOpen, FileText, User, LogOut, Lock, Unlock,
-  Star, Trash2, Database } from 'lucide-angular';
+  Star, Trash2, Database, Table2 } from 'lucide-angular';   // 👈 added Table2
 import { AdminService } from '../../core/services/admin.service';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -27,6 +27,7 @@ export class AdminComponent implements OnInit {
   readonly Star = Star;
   readonly Trash2 = Trash2;
   readonly Database = Database;
+  readonly Table2 = Table2;   // 👈 added
 
   users: any[] = [];
   isLoading = true;

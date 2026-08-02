@@ -1,0 +1,174 @@
+<div class="dashboard-container">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">
+        <lucide-angular [img]="Table2" [size]="20"></lucide-angular>
+      </div>
+      <div class="brand-text">
+        <h1>DMS</h1>
+        <p>Management System</p>
+      </div>
+    </div>
+    <div class="brand-divider"></div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item" (click)="navigateTo('dashboard')">
+        <lucide-angular [img]="LayoutDashboard" [size]="18"></lucide-angular>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-item" (click)="navigateTo('admin')">
+        <lucide-angular [img]="Users" [size]="18"></lucide-angular>
+        <span>User Management</span>
+      </a>
+      <a class="nav-item" (click)="navigateTo('files')">
+        <lucide-angular [img]="FolderOpen" [size]="18"></lucide-angular>
+        <span>File Upload</span>
+      </a>
+      <a class="nav-item" (click)="navigateTo('data-upload')">
+        <lucide-angular [img]="Database" [size]="18"></lucide-angular>
+        <span>Data Upload</span>
+      </a>
+      <a class="nav-item active" (click)="navigateTo('table-inspector')">
+        <lucide-angular [img]="Table2" [size]="18"></lucide-angular>
+        <span>Table Inspector</span>
+      </a>
+      <a class="nav-item" (click)="navigateTo('reports')">
+        <lucide-angular [img]="FileText" [size]="18"></lucide-angular>
+        <span>Reports</span>
+      </a>
+      <a class="nav-item" (click)="navigateTo('profile')">
+        <lucide-angular [img]="User" [size]="18"></lucide-angular>
+        <span>My Profile</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">
+          {{ currentUser?.fullName?.charAt(0) | uppercase }}
+        </div>
+        <div class="user-details">
+          <p class="user-name">{{ currentUser?.fullName }}</p>
+          <p class="user-role admin-badge">ADMIN</p>
+        </div>
+      </div>
+      <button class="logout-btn" (click)="logout()">
+        <lucide-angular [img]="LogOut" [size]="14"></lucide-angular>
+        Logout
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <div class="header">
+      <div>
+        <h2>Table Inspector</h2>
+        <p>Look up any dynamic data table directly by name</p>
+      </div>
+    </div>
+
+    <!-- Search Card -->
+    <div class="card">
+      <div class="card-header">
+        <h3>
+          <lucide-angular [img]="Search" [size]="16"></lucide-angular>
+          Search by Table Name
+        </h3>
+        <p>Enter an exact table name (e.g. ds_general_data_0d36144935)</p>
+      </div>
+
+      <div class="alert alert-error" *ngIf="errorMessage">
+        <lucide-angular [img]="AlertCircle" [size]="14"></lucide-angular>
+        {{ errorMessage }}
+      </div>
+
+      <div class="search-row">
+        <input
+          type="text"
+          [(ngModel)]="tableName"
+          (keyup.enter)="lookupTable()"
+          placeholder="Type table name here..."
+          class="table-input"/>
+        <button class="btn-primary"
+          (click)="lookupTable()"
+          [disabled]="isLookingUp">
+          <lucide-angular [img]="Search" [size]="14"></lucide-angular>
+          {{ isLookingUp ? 'Searching...' : 'Search' }}
+        </button>
+        <button class="btn-reset" (click)="resetSearch()">
+          Reset
+        </button>
+      </div>
+
+      <!-- Lookup Result -->
+      <div class="lookup-result" *ngIf="lookupResult">
+        <div class="result-box"
+          [class.found]="lookupResult.found"
+          [class.not-found]="!lookupResult.found">
+          <lucide-angular
+            [img]="lookupResult.found ? CheckCircle : AlertCircle"
+            [size]="18"></lucide-angular>
+          <div class="result-text">
+            <p class="result-title">
+              {{ lookupResult.found ?
+                'Table Found' : 'Table Not Found' }}
+            </p>
+            <p class="result-detail">
+              {{ lookupResult.message }}
+            </p>
+          </div>
+          <button class="btn-view-data"
+            *ngIf="lookupResult.found"
+            (click)="viewTableData()"
+            [disabled]="isLoadingData">
+            {{ isLoadingData ? 'Loading...' : 'View Data' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="card" *ngIf="tableData?.found">
+      <div class="card-header">
+        <h3>
+          <lucide-angular [img]="Table2" [size]="16"></lucide-angular>
+          {{ tableData.tableName }}
+        </h3>
+        <p>{{ tableData.totalRows }} row(s) total</p>
+      </div>
+
+      <div class="table-scroll" *ngIf="tableData.rows.length > 0">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th *ngFor="let col of tableData.columns">
+                {{ col }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of tableData.rows">
+              <td *ngFor="let col of tableData.columns">
+                <span
+                  [class.num-val]="isNumber(row[col])"
+                  [class.str-val]="!isNumber(row[col])">
+                  {{ row[col] ?? '—' }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="empty-state" *ngIf="tableData.rows.length === 0">
+        <lucide-angular [img]="Table2" [size]="24"></lucide-angular>
+        <p>This table exists but currently has no rows.</p>
+      </div>
+    </div>
+
+  </div>
+</div>

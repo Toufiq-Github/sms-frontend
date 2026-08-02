@@ -124,4 +124,32 @@ export class DataUploadService {
       }
     );
   }
+
+  // ========== NEW: Table Inspector endpoints ==========
+
+  // Step 1: Check if table exists and get row count
+  lookupTable(tableName: string): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/api/admin/inspect/lookup`,
+      {
+        headers: new HttpHeaders({
+          'Authorization': this.getToken()
+        }),
+        params: { tableName }
+      }
+    );
+  }
+
+  // Step 2: Load actual table data
+  getTableData(tableName: string): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/api/admin/inspect/data`,
+      {
+        headers: new HttpHeaders({
+          'Authorization': this.getToken()
+        }),
+        params: { tableName }
+      }
+    );
+  }
 }

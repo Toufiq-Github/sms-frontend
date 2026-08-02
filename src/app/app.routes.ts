@@ -68,6 +68,14 @@ export const routes: Routes = [
         .then(m => m.DataViewComponent),
     canActivate: [AuthGuard]
   },
+  // 👇 NEW ROUTE: Table Inspector (admin-only, but guard handles auth)
+  {
+    path: 'table-inspector',
+    loadComponent: () =>
+      import('./pages/table-inspector/table-inspector.component')
+        .then(m => m.TableInspectorComponent),
+    canActivate: [AuthGuard]
+  },
   {
     path: '**',
     redirectTo: 'login'
