@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { LucideAngularModule, LayoutDashboard,
   FolderOpen, FileText, User, LogOut, Search, X,
   Upload, Download, Trash2, FileType, FileSpreadsheet,
-  FileCode, Database } from 'lucide-angular';
+  FileCode, Database, Users, Table2 } from 'lucide-angular';
 import { FileService } from '../../core/services/file.service';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -32,6 +32,8 @@ export class FilesComponent implements OnInit {
   readonly FileSpreadsheet = FileSpreadsheet;
   readonly FileCode = FileCode;
   readonly Database = Database;
+  readonly Users = Users;  // 👈 Added for User Management
+  readonly Table2 = Table2; // 👈 Added for Table Inspector
 
   files: any[] = [];
   filteredFiles: any[] = [];
@@ -41,6 +43,7 @@ export class FilesComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
   currentUser: any;
+  isAdmin = false; // 👈 Added to show/hide Admin menu items
 
   searchText = '';
   selectedType = 'ALL';
@@ -53,6 +56,7 @@ export class FilesComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
+    this.isAdmin = this.currentUser?.role === 'ADMIN'; // 👈 Check admin status
     this.loadFiles();
   }
 

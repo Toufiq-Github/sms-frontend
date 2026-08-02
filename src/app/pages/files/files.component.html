@@ -20,6 +20,16 @@
           [size]="18"></lucide-angular>
         <span>Dashboard</span>
       </a>
+
+      <!-- 👇 ADDED: User Management (Admin Only) -->
+      <a class="nav-item"
+        *ngIf="isAdmin"
+        (click)="navigateTo('admin')">
+        <lucide-angular [img]="Users"
+          [size]="18"></lucide-angular>
+        <span>User Management</span>
+      </a>
+
       <a class="nav-item active"
         (click)="navigateTo('files')">
         <lucide-angular [img]="FolderOpen"
@@ -38,6 +48,16 @@
           [size]="18"></lucide-angular>
         <span>Reports</span>
       </a>
+
+      <!-- 👇 ADDED: Table Inspector (Admin Only) - Placed strictly under Reports -->
+      <a class="nav-item"
+        *ngIf="isAdmin"
+        (click)="navigateTo('table-inspector')">
+        <lucide-angular [img]="Table2"
+          [size]="18"></lucide-angular>
+        <span>Table Inspector</span>
+      </a>
+
       <a class="nav-item"
         (click)="navigateTo('profile')">
         <lucide-angular [img]="User"

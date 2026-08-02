@@ -45,8 +45,9 @@
         <span>Reports</span>
       </a>
 
-      <!-- 👇 NEW Table Inspector link -->
+      <!-- 👇 NEW Table Inspector link (Added *ngIf="isAdmin") -->
       <a class="nav-item"
+        *ngIf="isAdmin"
         (click)="navigateTo('table-inspector')">
         <lucide-angular [img]="Table2"
           [size]="18"></lucide-angular>

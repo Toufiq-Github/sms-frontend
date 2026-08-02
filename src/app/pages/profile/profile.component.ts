@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LucideAngularModule, LayoutDashboard, Users,
   FolderOpen, FileText, User, LogOut, Calendar, Clock,
-  IdCard, Edit, Database, KeyRound } from 'lucide-angular';
+  IdCard, Edit, Database, KeyRound, Table2 } from 'lucide-angular';
 import { ProfileService } from '../../core/services/profile.service';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
   readonly Edit = Edit;
   readonly KeyRound = KeyRound;
   readonly Database = Database;
+  readonly Table2 = Table2; // 👈 Added Table Inspector icon
 
   profile: any = {};
   isLoading = true;

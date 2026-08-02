@@ -18,10 +18,13 @@
         <lucide-angular [img]="LayoutDashboard" [size]="18"></lucide-angular>
         <span>Dashboard</span>
       </a>
-      <a class="nav-item" (click)="navigateTo('admin')">
+      
+      <!-- 👇 Added *ngIf="isAdmin" to User Management -->
+      <a class="nav-item" *ngIf="isAdmin" (click)="navigateTo('admin')">
         <lucide-angular [img]="Users" [size]="18"></lucide-angular>
         <span>User Management</span>
       </a>
+
       <a class="nav-item" (click)="navigateTo('files')">
         <lucide-angular [img]="FolderOpen" [size]="18"></lucide-angular>
         <span>File Upload</span>
@@ -30,14 +33,18 @@
         <lucide-angular [img]="Database" [size]="18"></lucide-angular>
         <span>Data Upload</span>
       </a>
-      <a class="nav-item active" (click)="navigateTo('table-inspector')">
-        <lucide-angular [img]="Table2" [size]="18"></lucide-angular>
-        <span>Table Inspector</span>
-      </a>
+      
       <a class="nav-item" (click)="navigateTo('reports')">
         <lucide-angular [img]="FileText" [size]="18"></lucide-angular>
         <span>Reports</span>
       </a>
+
+      <!-- 👇 MOVED: Table Inspector sits strictly under Reports, added *ngIf -->
+      <a class="nav-item active" *ngIf="isAdmin" (click)="navigateTo('table-inspector')">
+        <lucide-angular [img]="Table2" [size]="18"></lucide-angular>
+        <span>Table Inspector</span>
+      </a>
+
       <a class="nav-item" (click)="navigateTo('profile')">
         <lucide-angular [img]="User" [size]="18"></lucide-angular>
         <span>My Profile</span>

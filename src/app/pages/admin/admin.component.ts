@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LucideAngularModule, LayoutDashboard, Users,
   FolderOpen, FileText, User, LogOut, Lock, Unlock,
-  Star, Trash2, Database, Table2 } from 'lucide-angular';   // 👈 added Table2
+  Star, Trash2, Database, Table2 } from 'lucide-angular';   
 import { AdminService } from '../../core/services/admin.service';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -27,13 +27,14 @@ export class AdminComponent implements OnInit {
   readonly Star = Star;
   readonly Trash2 = Trash2;
   readonly Database = Database;
-  readonly Table2 = Table2;   // 👈 added
+  readonly Table2 = Table2;   
 
   users: any[] = [];
   isLoading = true;
   successMessage = '';
   errorMessage = '';
   currentUser: any;
+  isAdmin = false; // 👈 Added to match your Dashboard pattern
 
   constructor(
     private adminService: AdminService,
@@ -42,7 +43,9 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
-    if (this.currentUser?.role !== 'ADMIN') {
+    this.isAdmin = this.currentUser?.role === 'ADMIN'; // 👈 Assigned here
+    
+    if (!this.isAdmin) {
       this.router.navigate(['/dashboard']);
       return;
     }

@@ -7,7 +7,7 @@ import {
   FileText, User, LogOut, Upload, Eye, Database,
   FileSpreadsheet, ChevronLeft, ChevronRight,
   Search, X, CheckCircle, AlertCircle, Trash2,
-  Users, ShieldCheck
+  Users, ShieldCheck, Table2 // 👈 Added Table2
 } from 'lucide-angular';
 import { DataUploadService } from '../../core/services/data-upload.service';
 import { AuthService } from '../../core/services/auth.service';
@@ -40,6 +40,7 @@ export class DataUploadComponent implements OnInit {
   readonly Trash2 = Trash2;
   readonly Users = Users;
   readonly ShieldCheck = ShieldCheck;
+  readonly Table2 = Table2; // 👈 Added new icon variable
 
   Math = Math;
 

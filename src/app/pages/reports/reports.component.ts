@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LucideAngularModule, LayoutDashboard,
   FolderOpen, FileText, User, LogOut, FileType,
-  FileSpreadsheet, Database, Download } from 'lucide-angular';
+  FileSpreadsheet, Database, Download, Users, Table2 } from 'lucide-angular';
 import { ReportService } from '../../core/services/report.service';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -25,6 +25,8 @@ export class ReportsComponent implements OnInit {
   readonly FileSpreadsheet = FileSpreadsheet;
   readonly Download = Download;
   readonly Database = Database;
+  readonly Users = Users;      // 👈 Added for User Management
+  readonly Table2 = Table2;    // 👈 Added for Table Inspector
 
   reports: any[] = [];
   isLoading = true;
@@ -32,6 +34,7 @@ export class ReportsComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
   currentUser: any;
+  isAdmin = false; // 👈 Added to show/hide Admin menu items
 
   constructor(
     private reportService: ReportService,
@@ -40,6 +43,7 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
+    this.isAdmin = this.currentUser?.role === 'ADMIN'; // 👈 Check admin status
     this.loadReports();
   }
 

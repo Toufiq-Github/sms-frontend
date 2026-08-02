@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LucideAngularModule, LayoutDashboard, Users,
   FolderOpen, FileText, User, LogOut, ShieldCheck,
   UserCheck, FileType, FileSpreadsheet, FileCode,
-  ArrowRight,Database } from 'lucide-angular';
+  ArrowRight, Database, Table2 } from 'lucide-angular';
 import { DashboardService } from '../../core/services/dashboard.service';
 import { AuthService } from '../../core/services/auth.service';
 import { FileService } from '../../core/services/file.service';
@@ -32,6 +32,7 @@ export class DashboardComponent implements OnInit {
   readonly FileCode = FileCode;
   readonly ArrowRight = ArrowRight;
   readonly Database = Database;
+  readonly Table2 = Table2; // 👈 New icon added here
 
   stats: any = {
     totalUsers: 0,

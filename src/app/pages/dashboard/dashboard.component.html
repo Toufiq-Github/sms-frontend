@@ -20,6 +20,7 @@
           class="nav-icon" [size]="18"></lucide-angular>
         <span>Dashboard</span>
       </a>
+      
       <a class="nav-item"
         *ngIf="isAdmin"
         (click)="navigateTo('admin')">
@@ -27,24 +28,38 @@
           class="nav-icon" [size]="18"></lucide-angular>
         <span>User Management</span>
       </a>
+      
       <a class="nav-item"
         (click)="navigateTo('files')">
         <lucide-angular [img]="FolderOpen"
           class="nav-icon" [size]="18"></lucide-angular>
         <span>File Upload</span>
       </a>
+      
       <a class="nav-item"
         (click)="navigateTo('data-upload')">
         <lucide-angular [img]="Database"
           class="nav-icon" [size]="18"></lucide-angular>
         <span>Data Upload</span>
       </a>
+      
       <a class="nav-item"
         (click)="navigateTo('reports')">
         <lucide-angular [img]="FileText"
           class="nav-icon" [size]="18"></lucide-angular>
         <span>Reports</span>
       </a>
+
+      <!-- 👇 MOVED: Table Inspector is now placed directly under Reports 👇 -->
+      <a class="nav-item"
+        *ngIf="isAdmin"
+        (click)="navigateTo('table-inspector')">
+        <lucide-angular [img]="Table2"
+          class="nav-icon" [size]="18"></lucide-angular>
+        <span>Table Inspector</span>
+      </a>
+      <!-- 👆 END MOVE 👆 -->
+
       <a class="nav-item"
         (click)="navigateTo('profile')">
         <lucide-angular [img]="User"
